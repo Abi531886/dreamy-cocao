@@ -1,0 +1,136 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamy Cocoa - Products</title>
+    <script>
+        // Function to add a product to the cart
+        function addToCart(productName, productPrice) {
+            // Get cart from localStorage or create a new one if it doesn't exist
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Check if the product is already in the cart
+            let existingProduct = cart.find(item => item.name === productName);
+            if (existingProduct) {
+                // Increase the quantity if the product already exists in the cart
+                existingProduct.quantity++;
+            } else {
+                // Add the new product to the cart
+                cart.push({ name: productName, price: productPrice, quantity: 1 });
+            }
+
+            // Save updated cart back to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            alert(`${productName} has been added to your cart!`);
+        }
+    </script>
+</head>
+<body>
+
+    <h1 style"text-align: center;">Dreamy Cocoa</h1>
+    <h2>...Your collections...</h2>
+
+
+</body>
+</html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .cart-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            text-align: center;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-item-name {
+            flex: 1;
+        }
+        .cart-item-quantity,
+        .cart-item-price {
+            width: 100px;
+            text-align: center;
+        }
+        .cart-total {
+            font-weight: bold;
+            text-align: right;
+        }
+        .checkout-btn {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ff5733;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        
+        <!-- Cart Items Container -->
+        <div id="cart-items"></div>
+
+        <!-- Cart Total -->
+        <div class="cart-total">
+            Total: $<span id="cart-total">0.00</span>
+        </div>
+
+        <!-- Checkout Button -->
+        <a href="#" class="checkout-btn">Proceed to Checkout</a>
+    </div>
+
+    <script>
+        // Retrieve cart items from localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Function to display cart items
+        function displayCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            let total = 0;
+
+            // Loop through the cart items and display them
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+
+                cartItemDiv.innerHTML = `
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-quantity">Quantity: ${item.quantity}</div>
+                    <div class="cart-item-price">Price: $${itemTotal.toFixed(2)}</div>
+                `;
+
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+
+            // Update total price
+            document.getElementById('cart-total').innerText = total.toFixed(2);
+        }
+
+        // Display the cart items on page load
+        displayCartItems();
+    </script>
+
+</body>
+</html>
